@@ -1,0 +1,170 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d0d0d;
+  color: #00ffea;
+  margin: 0; /* 移除body的內邊距 */
+  padding: 0; /* 移除body的外邊距 */
+  height: 100vh;
+  width: 100vw; /* 設置body的寬度為100%視口寬度 */
+  overflow-x: hidden; /* 防止橫向滾動 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  padding: 50px;
+  width: 100vw; /* 設置容器寬度為100%視口寬度 */
+}
+
+.title {
+  font-size: 6vw; /* 設置標題字體大小隨瀏覽器寬度變化 */
+  color: #00ffea;
+  margin: 0 auto; /* 將標題置中 */
+}
+
+.home-button-container {
+  display: flex;
+  justify-content: center; /* 讓按鈕居中對齊 */
+  gap: 5vw; /* 使用vw單位設置按鈕之間的間距 */
+}
+
+.tool-library-button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1vw; /* 設置按鈕之間的間距為1vw */
+  margin-bottom: 20px;
+  width: 90%; /* 設置按鈕容器寬度為90% */
+  margin-left: auto;
+  margin-right: auto; /* 確保按鈕容器在中間對齊 */
+  margin-top: 3vw; /* 添加按鈕容器與標題之間的間距，等於標題高度的一半 */
+}
+
+.button {
+  width: calc(30% - 5vw); /* 設置首頁按鈕的寬度 */
+  aspect-ratio: 1; /* 保持正方形 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #00ffea;
+  border-radius: 20px;
+  font-size: 5vw; /* 設置按鈕字體大小為5vw */
+  cursor: pointer;
+  background-color: #0d0d0d;
+  color: #00ffea;
+  outline: none;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button:hover {
+  background-color: #00ffea;
+  color: #0d0d0d;
+  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea;
+}
+
+.back-button {
+  background-color: #0d0d0d;
+  color: #00ffea;
+  border: 2px solid #00ffea;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1.5vw;
+  margin-bottom: 2vh;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.small-button {
+  background-color: #0d0d0d;
+  color: #00ffea;
+  border: 2px solid #00ffea;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1vw; /* 設置小按鈕字體大小為1vw */
+  margin: 0; /* 移除小按鈕的外邊距 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 添加懸浮效果過渡 */
+}
+
+.small-button:hover {
+  background-color: #00ffea;
+  color: #0d0d0d;
+  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea; /* 懸浮效果 */
+}
+
+.form-container {
+  background-color: #1a1a1a;
+  border: 2px solid #00ffea;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  width: 90%; /* 設置表單容器寬度與表格相同 */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 確保輸入框和標籤垂直居中對齊 */
+  gap: 1vw; /* 設置輸入單元之間的間距 */
+}
+
+.form-row label {
+  flex: 1;
+  color: #00ffea;
+  display: flex;
+  align-items: center;
+}
+
+.form-row input {
+  width: 70%; /* 設置輸入框寬度 */
+  padding: 8px;
+  border: 1px solid #00ffea;
+  border-radius: 5px;
+  background-color: #0d0d0d;
+  color: #00ffea;
+  margin-left: 10px; /* 確保輸入框與標籤之間有間距 */
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-start; /* 讓提交與取消按鈕靠左排列 */
+  gap: 3vw; /* 設置按鈕之間的間距 */
+  font-size: 1vw; /* 設置按鈕字體大小為1vw */
+}
+
+.table-container {
+  overflow-x: auto; /* 使表格可水平滾動 */
+}
+
+.tool-table {
+  width: 90%; /* 設置表格寬度為90% */
+  margin: 0 auto;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 255, 234, 0.2); /* 添加陰影效果 */
+}
+
+.tool-table th, .tool-table td {
+  border: 1px solid #00ffea;
+  padding: 10px;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+
+.tool-table th {
+  background-color: #1a1a1a;
+  color: #00ffea;
+}
+
+.tool-table td {
+  background-color: #0d0d0d;
+  color: #00ffea;
+}
+
+.tool-table tr:hover td {
+  background-color: rgba(0, 255, 234, 0.1); /* 添加懸浮效果 */
+}
