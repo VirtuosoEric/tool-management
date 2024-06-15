@@ -2,11 +2,11 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #0d0d0d;
   color: #00ffea;
-  margin: 0; /* 移除body的內邊距 */
-  padding: 0; /* 移除body的外邊距 */
+  margin: 0; /* Remove body padding */
+  padding: 0; /* Remove body margin */
   height: 100vh;
-  width: 100vw; /* 設置body的寬度為100%視口寬度 */
-  overflow-x: hidden; /* 防止橫向滾動 */
+  width: 100vw; /* Set body width to 100% of viewport width */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,41 +15,75 @@ body {
 .container {
   text-align: center;
   padding: 50px;
-  width: 100vw; /* 設置容器寬度為100%視口寬度 */
+  width: 100vw; /* Set container width to 100% of viewport width */
 }
 
 .title {
-  font-size: 6vw; /* 設置標題字體大小隨瀏覽器寬度變化 */
+  font-size: 6vw; /* Set title font size relative to viewport width */
   color: #00ffea;
-  margin: 0 auto; /* 將標題置中 */
+  margin: 0 auto; /* Center title */
 }
 
 .home-button-container {
   display: flex;
-  justify-content: center; /* 讓按鈕居中對齊 */
-  gap: 5vw; /* 使用vw單位設置按鈕之間的間距 */
+  justify-content: center; /* Center buttons */
+  gap: 5vw; /* Set gap between buttons using viewport width */
 }
 
 .tool-library-button-container {
   display: flex;
   justify-content: flex-start;
-  gap: 1vw; /* 設置按鈕之間的間距為1vw */
+  gap: 1vw; /* Set gap between buttons to 1vw */
   margin-bottom: 20px;
-  width: 90%; /* 設置按鈕容器寬度為90% */
+  width: 90%; /* Set button container width to 90% */
   margin-left: auto;
-  margin-right: auto; /* 確保按鈕容器在中間對齊 */
-  margin-top: 3vw; /* 添加按鈕容器與標題之間的間距，等於標題高度的一半 */
+  margin-right: auto; /* Center button container */
+  margin-top: 3vw; /* Add margin between title and buttons */
+}
+
+.tool-library-title {
+  font-size: 4vw; /* Set title font size relative to viewport width */
+  color: #00ffea;
+  margin-top: 2vw; /* Add margin at the top */
+  margin-bottom: 1vw; /* Add margin at the bottom */
+}
+
+.smart-cutting-title {
+  font-size: 4vw; /* Set title font size relative to viewport width */
+  color: #00ffea;
+  margin-top: 2vw; /* Add margin at the top */
+  margin-bottom: 1vw; /* Add margin at the bottom */
+}
+
+.smart-cutting-form {
+  width: 60%; /* Center form with space on both sides */
+  margin: 0 auto;
+}
+
+.recommended-tools {
+  width: 60%; /* Center recommended tools with space on both sides */
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.smart-cutting-form .form-row,
+.recommended-tools .form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensure inputs and labels are vertically centered */
+  gap: 1vw; /* Set gap between input units */
+  margin-bottom: 10px;
 }
 
 .button {
-  width: calc(30% - 5vw); /* 設置首頁按鈕的寬度 */
-  aspect-ratio: 1; /* 保持正方形 */
+  width: calc(30% - 5vw); /* Set button width */
+  aspect-ratio: 1; /* Keep square shape */
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #00ffea;
   border-radius: 20px;
-  font-size: 5vw; /* 設置按鈕字體大小為5vw */
+  font-size: 5vw; /* Set button font size to 5vw */
   cursor: pointer;
   background-color: #0d0d0d;
   color: #00ffea;
@@ -63,7 +97,7 @@ body {
   box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea;
 }
 
-.back-button {
+.back-button, .small-button {
   background-color: #0d0d0d;
   color: #00ffea;
   border: 2px solid #00ffea;
@@ -72,27 +106,28 @@ body {
   cursor: pointer;
   font-size: 1.5vw;
   margin-bottom: 2vh;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.add-button {
+  margin-left: 10px; /* Add margin between input and + button */
+}
+
+.back-button {
   position: absolute;
   top: 20px;
   left: 20px;
 }
 
 .small-button {
-  background-color: #0d0d0d;
-  color: #00ffea;
-  border: 2px solid #00ffea;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 1vw; /* 設置小按鈕字體大小為1vw */
-  margin: 0; /* 移除小按鈕的外邊距 */
-  transition: background-color 0.3s, box-shadow 0.3s; /* 添加懸浮效果過渡 */
+  font-size: 1vw; /* Set small button font size */
+  margin: 0; /* Remove small button margin */
 }
 
 .small-button:hover {
   background-color: #00ffea;
   color: #0d0d0d;
-  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea; /* 懸浮效果 */
+  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea;
 }
 
 .form-container {
@@ -101,16 +136,9 @@ body {
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-  width: 90%; /* 設置表單容器寬度與表格相同 */
+  width: 90%; /* Set form container width to 90% */
   margin-left: auto;
   margin-right: auto;
-}
-
-.form-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* 確保輸入框和標籤垂直居中對齊 */
-  gap: 1vw; /* 設置輸入單元之間的間距 */
 }
 
 .form-row label {
@@ -121,31 +149,31 @@ body {
 }
 
 .form-row input {
-  width: 70%; /* 設置輸入框寬度 */
+  width: 70%; /* Set input width */
   padding: 8px;
   border: 1px solid #00ffea;
   border-radius: 5px;
   background-color: #0d0d0d;
   color: #00ffea;
-  margin-left: 10px; /* 確保輸入框與標籤之間有間距 */
+  margin-left: 10px; /* Add margin between input and label */
 }
 
 .form-buttons {
   display: flex;
-  justify-content: flex-start; /* 讓提交與取消按鈕靠左排列 */
-  gap: 3vw; /* 設置按鈕之間的間距 */
-  font-size: 1vw; /* 設置按鈕字體大小為1vw */
+  justify-content: flex-start; /* Align submit and cancel buttons to the left */
+  gap: 3vw; /* Set gap between buttons */
+  font-size: 1vw; /* Set button font size */
 }
 
 .table-container {
-  overflow-x: auto; /* 使表格可水平滾動 */
+  overflow-x: auto; /* Enable horizontal scrolling */
 }
 
 .tool-table {
-  width: 90%; /* 設置表格寬度為90% */
+  width: 90%; /* Set table width to 90% */
   margin: 0 auto;
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 255, 234, 0.2); /* 添加陰影效果 */
+  box-shadow: 0 0 10px rgba(0, 255, 234, 0.2); /* Add shadow effect */
 }
 
 .tool-table th, .tool-table td {
@@ -166,5 +194,15 @@ body {
 }
 
 .tool-table tr:hover td {
-  background-color: rgba(0, 255, 234, 0.1); /* 添加懸浮效果 */
+  background-color: rgba(0, 255, 234, 0.1); /* Add hover effect */
+}
+
+.recommended-tools select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #0d0d0d;
+  color: #00ffea;
+  border: 1px solid #00ffea;
+  border-radius: 5px;
 }

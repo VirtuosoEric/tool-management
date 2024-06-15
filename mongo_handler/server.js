@@ -14,7 +14,7 @@ let mongoUrlLocal = "mongodb://admin:password@localhost:27017/tool_management";
 let mongoUrlDocker = "mongodb://admin:password@mongodb/tool_management";
 
 // MongoDB connection
-mongoose.connect(mongoUrlDocker, {
+mongoose.connect(mongoUrlLocal, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   authSource: 'admin' // Ensure authentication against the 'admin' database
@@ -30,8 +30,8 @@ db.once('open', () => {
 // Tool schema and model
 const toolSchema = new mongoose.Schema({
   name: String,
-  distance: String,
-  health: String
+  maxDistance: Number,
+  remainingDistance: Number,
 });
 const Tool = mongoose.model('Tool', toolSchema);
 
@@ -40,7 +40,22 @@ app.post('/api/tools', async (req, res) => {
   console.log('Received POST request at /api/tools');
   console.log('Request body:', req.body);
 
-  const newTool = new Tool(req.body);
+  const { name, maxDistance, remainingDistance } = req.body;
+
+  // Parse the distances as floating-point numbers
+  const parsedMaxDistance = parseFloat(maxDistance);
+  const parsedRemainingDistance = parseFloat(remainingDistance);
+
+  // Validate the parsed values
+  if (isNaN(parsedMaxDistance) || isNaN(parsedRemainingDistance)) {
+    return res.status(400).send('Invalid maxDistance or remainingDistance');
+  }
+
+  const newTool = new Tool({
+    name,
+    maxDistance: parsedMaxDistance,
+    remainingDistance: parsedRemainingDistance,
+  });
 
   try {
     const savedTool = await newTool.save();
@@ -61,6 +76,66 @@ app.get('/api/tools', async (req, res) => {
   } catch (error) {
     console.error('Error retrieving tools:', error);
     res.status(400).json({ message: 'Error retrieving tools', error });
+  }
+});
+
+// POST endpoint to recommend tools
+app.post('/api/recommend-tools', async (req, res) => {
+  const { cuttingLength, cuttingWidths } = req.body;
+
+  try {
+    const recommendedTools = [];
+    const usedToolIds = new Set();
+
+    for (const width of cuttingWidths) {
+      const tool = await Tool.findOne({
+        remainingDistance: { $gte: cuttingLength },
+        _id: { $nin: Array.from(usedToolIds) }
+      }).sort({ remainingDistance: 1 });
+
+      if (tool) {
+        recommendedTools.push(tool);
+        usedToolIds.add(tool._id);
+      } else {
+        return res.status(404).json({ message: '刀具不足' });
+      }
+    }
+
+    res.json(recommendedTools);
+  } catch (error) {
+    console.error('Error recommending tools:', error);
+    res.status(500).json({ message: 'Error recommending tools', error });
+  }
+});
+
+// POST endpoint to confirm tool selection
+app.post('/api/confirm-tools', async (req, res) => {
+  const { selectedTools, cuttingLength } = req.body;
+
+  try {
+    for (const toolId of selectedTools) {
+      const tool = await Tool.findById(toolId);
+
+      if (!tool) {
+        return res.status(404).json({ message: `Tool with ID ${toolId} not found` });
+      }
+
+      if (tool.remainingDistance < cuttingLength) {
+        return res.status(400).json({ message: '刀具不足' });
+      }
+    }
+
+    // If all tools have enough remaining distance, update them
+    for (const toolId of selectedTools) {
+      await Tool.findByIdAndUpdate(toolId, {
+        $inc: { remainingDistance: -cuttingLength }
+      });
+    }
+
+    res.status(200).json({ message: 'Tools updated successfully' });
+  } catch (error) {
+    console.error('Error confirming tools:', error);
+    res.status(500).json({ message: 'Error confirming tools', error });
   }
 });
 
