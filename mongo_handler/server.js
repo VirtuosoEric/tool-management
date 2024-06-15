@@ -14,7 +14,7 @@ let mongoUrlLocal = "mongodb://admin:password@localhost:27017/tool_management";
 let mongoUrlDocker = "mongodb://admin:password@mongodb/tool_management";
 
 // MongoDB connection
-mongoose.connect(mongoUrlLocal, {
+mongoose.connect(mongoUrlDocker, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   authSource: 'admin' // Ensure authentication against the 'admin' database
