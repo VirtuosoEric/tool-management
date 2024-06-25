@@ -79,6 +79,37 @@ app.get('/api/tools', async (req, res) => {
   }
 });
 
+// PUT endpoint to update an existing tool
+app.put('/api/tools/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, maxDistance, remainingDistance } = req.body;
+
+  try {
+    const updatedTool = await Tool.findByIdAndUpdate(
+      id,
+      { name, maxDistance: parseFloat(maxDistance), remainingDistance: parseFloat(remainingDistance) },
+      { new: true }
+    );
+    res.json(updatedTool);
+  } catch (error) {
+    console.error('Error updating tool:', error);
+    res.status(400).json({ message: 'Error updating tool', error });
+  }
+});
+
+// DELETE endpoint to delete an existing tool
+app.delete('/api/tools/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Tool.findByIdAndDelete(id);
+    res.json({ message: 'Tool deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting tool:', error);
+    res.status(400).json({ message: 'Error deleting tool', error });
+  }
+});
+
 // POST endpoint to recommend tools
 app.post('/api/recommend-tools', async (req, res) => {
   const { cuttingLength, cuttingWidths } = req.body;
@@ -136,6 +167,48 @@ app.post('/api/confirm-tools', async (req, res) => {
   } catch (error) {
     console.error('Error confirming tools:', error);
     res.status(500).json({ message: 'Error confirming tools', error });
+  }
+});
+
+// Work schema and model
+const workSchema = new mongoose.Schema({
+  time: { type: Date, default: Date.now },
+  tool_name: String,
+  maxDistance: Number,
+  remainingDistance: Number,
+  health: Number
+});
+const Work = mongoose.model('Work', workSchema);
+
+// POST endpoint to create a new work record
+app.post('/api/work', async (req, res) => {
+  const { tool_name, maxDistance, remainingDistance } = req.body;
+  const health = remainingDistance / maxDistance;
+
+  const newWork = new Work({
+    tool_name,
+    maxDistance,
+    remainingDistance,
+    health
+  });
+
+  try {
+    const savedWork = await newWork.save();
+    res.status(201).json(savedWork);
+  } catch (error) {
+    console.error('Error saving work record:', error);
+    res.status(400).json({ message: 'Error saving work record', error });
+  }
+});
+
+// GET endpoint to retrieve all work records
+app.get('/api/work', async (req, res) => {
+  try {
+    const works = await Work.find().sort({ time: -1 });
+    res.json(works);
+  } catch (error) {
+    console.error('Error retrieving work records:', error);
+    res.status(400).json({ message: 'Error retrieving work records', error });
   }
 });
 

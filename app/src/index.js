@@ -9,11 +9,16 @@ function App() {
   const showHome = () => setActiveComponent('home');
   const showToolLibrary = () => setActiveComponent('toolLibrary');
   const showSmartCutting = () => setActiveComponent('smartCutting');
+  const showWorkRecords = () => setActiveComponent('workRecords');
 
   return (
     <div className="container">
       {activeComponent === 'home' && (
-        <Home onToolLibraryClick={showToolLibrary} onSmartCuttingClick={showSmartCutting} />
+        <Home 
+          onToolLibraryClick={showToolLibrary} 
+          onSmartCuttingClick={showSmartCutting} 
+          onWorkRecordsClick={showWorkRecords} 
+        />
       )}
       {activeComponent === 'toolLibrary' && (
         <ToolLibrary onBackClick={showHome} />
@@ -21,11 +26,14 @@ function App() {
       {activeComponent === 'smartCutting' && (
         <SmartCutting onBackClick={showHome} onSuccess={showHome} />
       )}
+      {activeComponent === 'workRecords' && (
+        <WorkRecords onBackClick={showHome} />
+      )}
     </div>
   );
 }
 
-function Home({ onToolLibraryClick, onSmartCuttingClick }) {
+function Home({ onToolLibraryClick, onSmartCuttingClick, onWorkRecordsClick }) {
   const titleRef = useRef(null);
   const buttonContainerRef = useRef(null);
 
@@ -39,13 +47,11 @@ function Home({ onToolLibraryClick, onSmartCuttingClick }) {
   return (
     <>
       <h1 className="title" ref={titleRef}>智慧刀具管理平台</h1>
-      <div className="dashboard-buttons" ref={buttonContainerRef}>
-        
-      </div>
+      <div className="dashboard-buttons" ref={buttonContainerRef}></div>
       <div className="button-container home-button-container">
         <button className="button" onClick={onToolLibraryClick}>刀具庫</button>
         <button className="button" onClick={onSmartCuttingClick}>開始工作</button>
-        <button className="button">工作紀錄</button>
+        <button className="button" onClick={onWorkRecordsClick}>工作紀錄</button>
       </div>
     </>
   );
@@ -55,10 +61,13 @@ function ToolLibrary({ onBackClick }) {
   const [tools, setTools] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
+    id: '',
     name: '',
     maxDistance: '',
     remainingDistance: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedToolId, setSelectedToolId] = useState('');
 
   useEffect(() => {
     const fetchTools = async () => {
@@ -72,17 +81,27 @@ function ToolLibrary({ onBackClick }) {
     fetchTools();
   }, []);
 
-  const handleShowForm = () => {
+  const handleShowForm = (tool = {}) => {
+    setFormData({
+      id: tool._id || '',
+      name: tool.name || '',
+      maxDistance: tool.maxDistance || '',
+      remainingDistance: tool.remainingDistance || ''
+    });
+    setIsEditing(!!tool._id);
     setShowForm(true);
   };
 
   const handleHideForm = () => {
     setShowForm(false);
     setFormData({
+      id: '',
       name: '',
       maxDistance: '',
       remainingDistance: ''
     });
+    setIsEditing(false);
+    setSelectedToolId('');
   };
 
   const handleChange = (e) => {
@@ -95,12 +114,21 @@ function ToolLibrary({ onBackClick }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { id, name, maxDistance, remainingDistance } = formData;
     try {
-      await axios.post('http://localhost:5000/api/tools', {
-        ...formData,
-        maxDistance: parseFloat(formData.maxDistance),
-        remainingDistance: parseFloat(formData.remainingDistance)
-      });
+      if (isEditing) {
+        await axios.put(`http://localhost:5000/api/tools/${id}`, {
+          name,
+          maxDistance: parseFloat(maxDistance),
+          remainingDistance: parseFloat(remainingDistance)
+        });
+      } else {
+        await axios.post('http://localhost:5000/api/tools', {
+          name,
+          maxDistance: parseFloat(maxDistance),
+          remainingDistance: parseFloat(remainingDistance)
+        });
+      }
       const response = await axios.get('http://localhost:5000/api/tools');
       setTools(response.data);
       handleHideForm();
@@ -109,14 +137,30 @@ function ToolLibrary({ onBackClick }) {
     }
   };
 
+  const handleEdit = () => {
+    const selectedTool = tools.find(tool => tool._id === selectedToolId);
+    handleShowForm(selectedTool);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/tools/${selectedToolId}`);
+      const response = await axios.get('http://localhost:5000/api/tools');
+      setTools(response.data);
+      handleHideForm();
+    } catch (error) {
+      console.error('Error deleting tool:', error);
+    }
+  };
+
   return (
     <>
       <h2 className="tool-library-title">刀具庫</h2>
       <div className="tool-library-button-container">
         <button className="small-button" onClick={onBackClick}>返回</button>
-        <button className="small-button" onClick={handleShowForm}>新增刀具</button>
-        <button className="small-button">移除</button>
-        <button className="small-button">編輯</button>
+        <button className="small-button" onClick={() => handleShowForm()}>新增刀具</button>
+        <button className="small-button" onClick={handleEdit} disabled={!selectedToolId}>編輯</button>
+        <button className="small-button" onClick={handleDelete} disabled={!selectedToolId}>移除</button>
       </div>
       {showForm && (
         <div className="form-container">
@@ -175,7 +219,14 @@ function ToolLibrary({ onBackClick }) {
           <tbody>
             {tools.map((tool) => (
               <tr key={tool._id}>
-                <td><input type="checkbox" className="custom-checkbox"/></td>
+                <td>
+                  <input
+                    type="radio"
+                    className="custom-checkbox"
+                    checked={selectedToolId === tool._id}
+                    onChange={() => setSelectedToolId(tool._id)}
+                  />
+                </td>
                 <td>{tool.name}</td>
                 <td>{tool.maxDistance.toFixed(2)}</td>
                 <td>{tool.remainingDistance.toFixed(2)}</td>
@@ -254,6 +305,19 @@ function SmartCutting({ onBackClick, onSuccess }) {
         selectedTools,
         cuttingLength: parseFloat(length)
       });
+
+      // Save work record for each tool
+      for (const toolId of selectedTools) {
+        const tool = allTools.find(t => t._id === toolId);
+        if (tool) {
+          await axios.post('http://localhost:5000/api/work', {
+            tool_name: tool.name,
+            maxDistance: tool.maxDistance,
+            remainingDistance: tool.remainingDistance - parseFloat(length)
+          });
+        }
+      }
+
       alert('工具使用成功');
       onSuccess(); // Navigate back to the home page on success
     } catch (error) {
@@ -328,6 +392,55 @@ function SmartCutting({ onBackClick, onSuccess }) {
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+function WorkRecords({ onBackClick }) {
+  const [workRecords, setWorkRecords] = useState([]);
+
+  useEffect(() => {
+    const fetchWorkRecords = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/work');
+        setWorkRecords(response.data);
+      } catch (error) {
+        console.error('Error fetching work records:', error);
+      }
+    };
+    fetchWorkRecords();
+  }, []);
+
+  return (
+    <>
+      <h2 className="work-records-title">工作紀錄</h2>
+      <div className="work-records-button-container">
+        <button className="small-button" onClick={onBackClick}>返回</button>
+      </div>
+      <div className="table-container">
+        <table className="work-table">
+          <thead>
+            <tr>
+              <th>時間</th>
+              <th>刀具名稱</th>
+              <th>最大使用距離</th>
+              <th>剩餘使用距離</th>
+              <th>健康度</th>
+            </tr>
+          </thead>
+          <tbody>
+            {workRecords.map((record) => (
+              <tr key={record._id}>
+                <td>{new Date(record.time).toLocaleString()}</td>
+                <td>{record.tool_name}</td>
+                <td>{record.maxDistance.toFixed(2)}</td>
+                <td>{record.remainingDistance.toFixed(2)}</td>
+                <td>{(record.health * 100).toFixed(2)}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
