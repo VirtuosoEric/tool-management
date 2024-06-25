@@ -1,106 +1,153 @@
+/* General styling for the body */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0d0d0d;
-  color: #00ffea;
-  margin: 0; /* Remove body padding */
-  padding: 0; /* Remove body margin */
+  background-color: #f0f4f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
   height: 100vh;
-  width: 100vw; /* Set body width to 100% of viewport width */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100vw;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Container for centering the content */
 .container {
   text-align: center;
   padding: 50px;
-  width: 100vw; /* Set container width to 100% of viewport width */
+  width: 100vw;
 }
 
+/* Title styling */
 .title {
-  font-size: 6vw; /* Set title font size relative to viewport width */
-  color: #00ffea;
-  margin: 0 auto; /* Center title */
-}
-
-.home-button-container {
-  display: flex;
-  justify-content: center; /* Center buttons */
-  gap: 5vw; /* Set gap between buttons using viewport width */
-}
-
-.tool-library-button-container {
-  display: flex;
-  justify-content: flex-start;
-  gap: 1vw; /* Set gap between buttons to 1vw */
-  margin-bottom: 20px;
-  width: 90%; /* Set button container width to 90% */
-  margin-left: auto;
-  margin-right: auto; /* Center button container */
-  margin-top: 3vw; /* Add margin between title and buttons */
-}
-
-.tool-library-title {
-  font-size: 4vw; /* Set title font size relative to viewport width */
-  color: #00ffea;
-  margin-top: 2vw; /* Add margin at the top */
-  margin-bottom: 1vw; /* Add margin at the bottom */
-}
-
-.smart-cutting-title {
-  font-size: 4vw; /* Set title font size relative to viewport width */
-  color: #00ffea;
-  margin-top: 2vw; /* Add margin at the top */
-  margin-bottom: 1vw; /* Add margin at the bottom */
-}
-
-.smart-cutting-form {
-  width: 60%; /* Center form with space on both sides */
+  font-size: 6vw;
+  color: #333;
   margin: 0 auto;
 }
 
+/* Dashboard button container styling */
+.dashboard-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.dashboard-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  width: 200px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-button h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.dashboard-button p {
+  margin: 5px 0 0;
+  font-size: 16px;
+}
+
+/* Home button container styling */
+.home-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+  margin-top: 20px;
+}
+
+/* Tool library button container styling */
+.tool-library-button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1vw;
+  margin-bottom: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3vw;
+}
+
+/* Tool library title styling */
+.tool-library-title {
+  font-size: 4vw;
+  color: #333;
+  margin-top: 2vw;
+  margin-bottom: 1vw;
+}
+
+/* Smart cutting title styling */
+.smart-cutting-title {
+  font-size: 4vw;
+  color: #333;
+  margin-top: 2vw;
+  margin-bottom: 1vw;
+}
+
+/* Smart cutting form styling */
+.smart-cutting-form {
+  width: 60%;
+  margin: 0 auto;
+}
+
+/* Recommended tools styling */
 .recommended-tools {
-  width: 60%; /* Center recommended tools with space on both sides */
+  width: 60%;
   margin: 0 auto;
   margin-top: 20px;
 }
 
+/* Form row styling */
 .smart-cutting-form .form-row,
 .recommended-tools .form-row {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Ensure inputs and labels are vertically centered */
-  gap: 1vw; /* Set gap between input units */
+  align-items: center;
+  gap: 1vw;
   margin-bottom: 10px;
 }
 
+/* Button styling */
 .button {
-  width: calc(30% - 5vw); /* Set button width */
-  aspect-ratio: 1; /* Keep square shape */
+  width: calc(30% - 5vw);
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #00ffea;
+  border: 2px solid #007bff;
   border-radius: 20px;
-  font-size: 5vw; /* Set button font size to 5vw */
+  font-size: 5vw;
   cursor: pointer;
-  background-color: #0d0d0d;
-  color: #00ffea;
+  background-color: #007bff;
+  color: white;
   outline: none;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .button:hover {
-  background-color: #00ffea;
-  color: #0d0d0d;
-  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea;
+  background-color: #0056b3;
+  box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff;
 }
 
+/* Small button styling */
 .back-button, .small-button {
-  background-color: #0d0d0d;
-  color: #00ffea;
-  border: 2px solid #00ffea;
+  background-color: #007bff;
+  color: white;
+  border: 2px solid #007bff;
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
@@ -110,9 +157,10 @@ body {
 }
 
 .add-button {
-  margin-left: 10px; /* Add margin between input and + button */
+  margin-left: 10px;
 }
 
+/* Back button positioning */
 .back-button {
   position: absolute;
   top: 20px;
@@ -120,89 +168,111 @@ body {
 }
 
 .small-button {
-  font-size: 1vw; /* Set small button font size */
-  margin: 0; /* Remove small button margin */
+  font-size: 1.5vw;
+  font-weight:900;
+  margin: 0;
 }
 
 .small-button:hover {
-  background-color: #00ffea;
-  color: #0d0d0d;
-  box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea, 0 0 30px #00ffea;
+  background-color: #0056b3;
+  box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff;
 }
 
+/* Form container styling */
 .form-container {
-  background-color: #1a1a1a;
-  border: 2px solid #00ffea;
+  /* font-size: 4vw; */
+  background-color: #f8f9fa;
+  border: 2px solid #007bff;
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-  width: 90%; /* Set form container width to 90% */
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
 
+/* Form row label styling */
 .form-row label {
   flex: 1;
-  color: #00ffea;
+  color: #333;
   display: flex;
   align-items: center;
+  font-size: 2vw;
 }
 
+/* Form row input styling */
 .form-row input {
-  width: 70%; /* Set input width */
-  padding: 8px;
-  border: 1px solid #00ffea;
+  width: 70%;
+  padding: 12px; /* Adjust padding for size */
+  font-size: 1.2vw; /* Adjust font size */
+  border: 1px solid #007bff;
   border-radius: 5px;
-  background-color: #0d0d0d;
-  color: #00ffea;
-  margin-left: 10px; /* Add margin between input and label */
+  background-color: white;
+  color: #333;
+  margin-left: 10px;
 }
 
+/* Form buttons styling */
 .form-buttons {
   display: flex;
-  justify-content: flex-start; /* Align submit and cancel buttons to the left */
-  gap: 3vw; /* Set gap between buttons */
-  font-size: 1vw; /* Set button font size */
+  justify-content: flex-start;
+  gap: 3vw;
+  font-size: 1vw;
 }
 
+/* Table container styling */
 .table-container {
-  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-x: auto;
+  margin: 20px auto; /* Centering the table container */
+  width: 80%; /* Occupy 80% of the screen width */
 }
 
+/* Tool table styling */
 .tool-table {
-  width: 90%; /* Set table width to 90% */
-  margin: 0 auto;
+  width: 100%; /* Make sure the table takes the full width of the container */
+  margin: 0 auto; /* Centering the table */
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 255, 234, 0.2); /* Add shadow effect */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-size: 1.5vw;
 }
 
 .tool-table th, .tool-table td {
-  border: 1px solid #00ffea;
   padding: 10px;
   text-align: left;
   transition: background-color 0.3s;
 }
 
 .tool-table th {
-  background-color: #1a1a1a;
-  color: #00ffea;
+  background-color: #007bff;
+  color: white;
 }
 
 .tool-table td {
-  background-color: #0d0d0d;
-  color: #00ffea;
+  background-color: white;
+  color: #333;
 }
 
 .tool-table tr:hover td {
-  background-color: rgba(0, 255, 234, 0.1); /* Add hover effect */
+  background-color: rgba(0, 123, 255, 0.1);
 }
 
+/* Recommended tools select styling */
 .recommended-tools select {
-  width: 100%;
-  padding: 10px;
+  width: 70%;
+  padding: 12px; /* Adjust padding for size */
+  font-size: 1.2vw; /* Adjust font size */
   margin-bottom: 10px;
-  background-color: #0d0d0d;
-  color: #00ffea;
-  border: 1px solid #00ffea;
+  background-color: white;
+  color: #333;
+  border: 1px solid #007bff;
   border-radius: 5px;
+}
+
+/* Add class to the checkbox */
+.custom-checkbox {
+  transform: scale(1.5); /* Adjust the scale as needed */
+}
+
+.custom-checkbox:checked {
+  transform: scale(1.5); /* Ensure checked state is also scaled */
 }

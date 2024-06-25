@@ -19,7 +19,7 @@ function App() {
         <ToolLibrary onBackClick={showHome} />
       )}
       {activeComponent === 'smartCutting' && (
-        <SmartCutting onBackClick={showHome} />
+        <SmartCutting onBackClick={showHome} onSuccess={showHome} />
       )}
     </div>
   );
@@ -39,7 +39,10 @@ function Home({ onToolLibraryClick, onSmartCuttingClick }) {
   return (
     <>
       <h1 className="title" ref={titleRef}>智慧刀具管理平台</h1>
-      <div className="button-container home-button-container" ref={buttonContainerRef}>
+      <div className="dashboard-buttons" ref={buttonContainerRef}>
+        
+      </div>
+      <div className="button-container home-button-container">
         <button className="button" onClick={onToolLibraryClick}>刀具庫</button>
         <button className="button" onClick={onSmartCuttingClick}>開始工作</button>
         <button className="button">工作紀錄</button>
@@ -163,7 +166,7 @@ function ToolLibrary({ onBackClick }) {
         <table className="tool-table">
           <thead>
             <tr>
-              <th></th>
+              <th>勾選</th>
               <th>名稱</th>
               <th>最大使用距離</th>
               <th>剩餘使用距離</th>
@@ -172,7 +175,7 @@ function ToolLibrary({ onBackClick }) {
           <tbody>
             {tools.map((tool) => (
               <tr key={tool._id}>
-                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" className="custom-checkbox"/></td>
                 <td>{tool.name}</td>
                 <td>{tool.maxDistance.toFixed(2)}</td>
                 <td>{tool.remainingDistance.toFixed(2)}</td>
@@ -185,7 +188,7 @@ function ToolLibrary({ onBackClick }) {
   );
 }
 
-function SmartCutting({ onBackClick }) {
+function SmartCutting({ onBackClick, onSuccess }) {
   const [length, setLength] = useState('');
   const [widths, setWidths] = useState(['']);
   const [recommendedTools, setRecommendedTools] = useState([]);
@@ -252,6 +255,7 @@ function SmartCutting({ onBackClick }) {
         cuttingLength: parseFloat(length)
       });
       alert('工具使用成功');
+      onSuccess(); // Navigate back to the home page on success
     } catch (error) {
       if (error.response && error.response.status === 400) {
         alert('刀具不足');
@@ -305,7 +309,7 @@ function SmartCutting({ onBackClick }) {
           {recommendedTools.map((tool, index) => (
             <div key={index} className="form-row">
               <label>
-                刀具 {index + 1}:
+                刀具 {index + 1}
                 <select
                   value={selectedTools[index]}
                   onChange={(e) => handleToolSelectionChange(index, e)}
