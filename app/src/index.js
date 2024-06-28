@@ -370,7 +370,7 @@ function SmartCutting({ onBackClick, onSuccess }) {
       </div>
       {recommendedTools.length > 0 && (
         <div className="recommended-tools">
-          <h3>推荐工具</h3>
+          <h3>推薦工具</h3>
           {recommendedTools.map((tool, index) => (
             <div key={index} className="form-row">
               <label>
