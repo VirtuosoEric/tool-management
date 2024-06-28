@@ -332,6 +332,7 @@ function SmartCutting({ onBackClick, onSuccess }) {
   return (
     <>
       <h2 className="smart-cutting-title">智慧排刀</h2>
+      <h3 className="notion">請勿輸入餘料寬度</h3>
       <div className="smart-cutting-form">
         <div className="form-row">
           <label>

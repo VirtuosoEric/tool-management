@@ -325,3 +325,8 @@ body {
 .work-table tr:hover td {
   background-color: rgba(0, 123, 255, 0.1);
 }
+
+.notion{
+  font-size: 2vw;
+  color: red;
+}
